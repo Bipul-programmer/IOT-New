@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+venv/
+env/
+.env
+
+# Node
+node_modules/
+dist/
+build/
+.npm/
+
+# macOS
+.DS_Store
+
+# IDEs
+.vscode/
+.idea/
+
+# Data and Models (Optional, but usually good to ignore large binaries, though maybe the user wants to push models? Let's NOT ignore the .csv and .joblib files since they are small and critical for the app to run without retraining)
+# collected_data.csv
+# sensor_dataset.csv
+# *.joblib

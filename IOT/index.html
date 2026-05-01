@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Real-time water quality monitoring and contamination prediction using IoT and ML.">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <nav class="nav-menu">
+                <a href="#" class="nav-item active">
+                    <span class="icon">📊</span> Dashboard
+                </a>
+                <a href="#" class="nav-item">
+                    <span class="icon">📈</span> Analytics
+                </a>
+                <a href="#" class="nav-item">
+                    <span class="icon">📡</span> LoRa Mesh
+                </a>
+                <a href="#" class="nav-item">
+                    <span class="icon">⚙️</span> Settings
+                </a>
+            </nav>
+            <div class="connectivity-status">
+                <div class="status-indicator online"></div>
+                <span>LoRa Mesh: Online</span>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div id="critical-banner" style="display: none; background: #ef4444; color: white; padding: 1.5rem; border-radius: 12px; margin-bottom: 2rem; box-shadow: 0 10px 15px -3px rgba(239,68,68,0.4); animation: pulse 2s infinite;">
+                <div style="display: flex; align-items: center; gap: 1.5rem;">
+                    <span style="font-size: 3rem;">⚠️</span>
+                    <div style="flex: 1;">
+                        <h2 style="margin: 0; font-weight: 800;">CRITICAL CONTAMINATION ALERT</h2>
+                        <p id="critical-reasons" style="margin: 0.5rem 0 0 0; font-weight: 500;"></p>
+                    </div>
+                    <div style="text-align: right;">
+                        <p style="margin: 0; opacity: 0.8; font-size: 0.8rem;">ACTION REQUIRED</p>
+                        <h3 style="margin: 0;">DO NOT DRINK</h3>
+                    </div>
+                </div>
+            </div>
+
+            <header class="top-bar">
+                <div class="welcome-text">
+                    <h2>Water Quality Overview</h2>
+                    <div class="selector-container">
+                        <select id="village-selector" class="custom-select">
+                            <option value="all">All Villages</option>
+                        </select>
+                        <p id="node-info">Live data from Mesh Network</p>
+                    </div>
+                    <button id="download-csv-btn" class="download-btn">
+                        <span class="icon">📥</span> Download CSV
+                    </button>
+                </div>
+                <div class="status-panels">
+                    <div class="prediction-panel" id="prediction-panel">
+                        <span class="label">Safety Status:</span>
+                        <span class="status safe" id="prediction-status">SAFE</span>
+                    </div>
+                    <div class="prediction-panel" id="disease-panel">
+                        <span class="label">Disease Risk:</span>
+                        <span class="status safe" id="disease-status">NONE</span>
+                    </div>
+                </div>
+                <div id="reasons-container" style="margin-top: 1rem; display: none;">
+                    <div style="background: rgba(239, 68, 68, 0.1); border-left: 4px solid #ef4444; padding: 1rem; border-radius: 8px;">
+                        <h4 style="margin: 0 0 0.5rem 0; color: #fca5a5; font-size: 0.8rem; text-transform: uppercase;">Contamination Insights</h4>
+                        <ul id="reasons-list" style="margin: 0; padding-left: 1.2rem; color: #f87171; font-size: 0.9rem;"></ul>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Sensor Grid -->
+            <section class="sensor-grid">
+                <div class="sensor-card" id="card-ph">
+                    <div class="sensor-info">
+                        <span class="sensor-label">pH Level</span>
+                        <span class="sensor-value" id="val-ph">7.2</span>
+                    </div>
+                    <div class="sensor-icon">🧪</div>
+                    <div class="sensor-trend">Stable</div>
+                </div>
+                <div class="sensor-card" id="card-tds">
+                    <div class="sensor-info">
+                        <span class="sensor-label">TDS (ppm)</span>
+                        <span class="sensor-value" id="val-tds">450</span>
+                    </div>
+                    <div class="sensor-icon">💎</div>
+                    <div class="sensor-trend">Optimized</div>
+                </div>
+                <div class="sensor-card" id="card-turbidity">
+                    <div class="sensor-info">
+                        <span class="sensor-label">Turbidity (NTU)</span>
+                        <span class="sensor-value" id="val-turbidity">1.5</span>
+                    </div>
+                    <div class="sensor-icon">🌫️</div>
+                    <div class="sensor-trend">Low</div>
+                </div>
+                <div class="sensor-card" id="card-temp">
+                    <div class="sensor-info">
+                        <span class="sensor-label">Temperature (°C)</span>
+                        <span class="sensor-value" id="val-temp">24.5</span>
+                    </div>
+                    <div class="sensor-icon">🌡️</div>
+                    <div class="sensor-trend">Normal</div>
+                </div>
+            </section>
+
+            <!-- Charts Section -->
+            <section class="charts-container">
+                <div class="chart-box">
+                    <h3>pH & TDS Trend</h3>
+                    <canvas id="qualityChart"></canvas>
+                </div>
+                <div class="chart-box">
+                    <h3>Temperature History</h3>
+                    <canvas id="tempChart"></canvas>
+                </div>
+            </section>
+        </main>
+    </div>
+    <script src="main.js"></script>
+</body>
+
+</html>
